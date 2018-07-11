@@ -1,0 +1,11 @@
+{
+  "main": "./integration.js",
+  "name": "polarity-tags",
+  "description": "Returns any Polarity tags for a given entity onDetails",
+  "version": "1.0.0-beta",
+  "private": true,
+  "dependencies": {
+    "async": "^2.6.1",
+    "request": "^2.87.0"
+  }
+}
