@@ -4,9 +4,8 @@ polarity.export = PolarityComponent.extend({
   channels: '',
   tags: '',
   actions: {
-    applyTags: function(type) {
+    applyTags: function() {
       let self = this;
-
       let tags = this.get('tags').trim();
       let channels = this.get('channels').trim();
 
