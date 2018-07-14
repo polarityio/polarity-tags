@@ -25,6 +25,14 @@ module.exports = {
      */
     rejectUnauthorized: false
   },
+  block: {
+    component: {
+      file: './components/polarity-block.js'
+    },
+    template: {
+      file: './templates/polarity-block.hbs'
+    }
+  },
   options: [
     {
       key: 'polarityHost',

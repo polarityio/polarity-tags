@@ -43,8 +43,6 @@ function startup(logger) {
 function doLookup(entities, options, cb) {
   let results = [];
 
-  Logger.info({ options: options }, 'Options');
-
   entities.forEach((entity) => {
     results.push({
       entity: entity,
@@ -59,6 +57,38 @@ function doLookup(entities, options, cb) {
   });
 
   cb(null, results);
+}
+
+function onMessage(payload, options, cb) {
+  Logger.info({payload:payload}, 'Payload');
+  if (payload.type === 'APPLY_TAGS') {
+    let polarity = new Polarity(requestWithDefaults, Logger);
+    async.waterfall(
+      [
+        function connect(next) {
+          polarity.connect(
+            options.polarityHost,
+            options.polarityUsername,
+            options.polarityPassword,
+            next
+          );
+        },
+        function applyTags(next) {
+          polarity.applyTags(payload.entityValue, payload.tags, payload.channels, next);
+        },
+        function disconnect(result, next) {
+          polarity.disconnect((err) => {
+            next(err, result);
+          });
+        }
+      ],
+      cb
+    );
+  } else {
+    cb({
+      detail: 'Invalid onMessage payload type (valid values are APPLY_TAG'
+    });
+  }
 }
 
 function onDetails(lookupObject, options, cb) {
@@ -101,5 +131,6 @@ function onDetails(lookupObject, options, cb) {
 module.exports = {
   doLookup: doLookup,
   startup: startup,
-  onDetails: onDetails
+  onDetails: onDetails,
+  onMessage: onMessage
 };

@@ -1,0 +1,16 @@
+{{input type="text" class="custom-input" value=tags placeholder="Comma Delimited Tags"}}
+{{input type="text" class="custom-input" value=channels placeholder="Comma Delimited Channel IDs"}}
+<div>
+<button {{action "applyTags"}}>Apply Tags</button>
+</div>
+{{#if result}}
+    <h1 class="p-title">{{fa-icon "tag"}} Tag Results</h1>
+    {{object-to-table result}}
+{{/if}}
+{{#if error}}
+    <div class="p-bg-red">
+        {{fa-icon "exclamation"}} {{error}}
+    </div>
+{{/if}}
+<h1 class="p-title">{{fa-icon "info"}} Details</h1>
+{{object-to-table block.data.details}}

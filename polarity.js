@@ -74,6 +74,70 @@ class Polarity {
     });
   }
 
+    /**
+     *
+     * @param entityValue {String} An entity value
+     * @param tags {Array|String} Array of tags as strings
+     * @param channels {Array|String} Array of channel ids as strings
+     * @param cb callback which returns tag generation statistics
+     * @returns {*}
+     */
+  applyTags(entityValue, tags, channels, cb) {
+    let self = this;
+
+    if (this.isDisconnected()) {
+      return cb('Polarity must be connected before trying to applyTags()');
+    }
+
+    let data = [];
+
+    if(tags.length === 0 || channels.length === 0){
+      return cb('You must provide at least one tag and one channel when applying tags');
+    }
+
+    tags.forEach((tag) => {
+      data.push({
+        type: 'tag-entity-pairs',
+        attributes: {
+          tag: tag,
+          entity: entityValue,
+          'channel-id': channels,
+          type: 'string',
+          confidence: 0
+        }
+      });
+    });
+
+    let requestOptions = {
+      uri: this.host + '/v2/tag-entity-pairs',
+      method: 'POST',
+      json: true,
+      jar: this.cookieJar,
+      body: {
+        data: data
+      }
+    };
+
+    this.request(requestOptions, function(err, response, body){
+        if (err) {
+            return cb({
+                detail: 'HTTP Request Error while attempting to apply tags',
+                err: err
+            });
+        }
+
+        if(response.statusCode !== 201){
+          return cb({
+              detail: 'Error when attempting to apply tags',
+              statusCode: response.statusCode,
+              body: body
+          })
+        }
+
+        cb(null, body);
+    });
+  }
+
   /**
    * Get Tags for the given `entityValue` from the given `channels`
    * @param entityValue {String}
