@@ -1,0 +1,52 @@
+{
+  "name": "Polarity Tags",
+  "acronym": "POL",
+  "entityTypes": [
+    "*"
+  ],
+  "request": {
+    "cert": "",
+    "key": "",
+    "passphrase": "",
+    "ca": "",
+    "proxy": "",
+    "rejectUnauthorized": false
+  },
+  "block": {
+    "component": {
+      "file": "./components/polarity-block.js"
+    },
+    "template": {
+      "file": "./templates/polarity-block.hbs"
+    }
+  },
+  "options": [
+    {
+      "key": "polarityHost",
+      "name": "Polarity Host",
+      "description": "The Polarity server host including the schema (e.g., https://mypolarity.server)",
+      "default": "",
+      "type": "text",
+      "userCanEdit": true,
+      "adminOnly": false
+    },
+    {
+      "key": "polarityUsername",
+      "name": "Polarity Username",
+      "description": "The Polarity username you want to authenticate as",
+      "default": "",
+      "type": "text",
+      "userCanEdit": true,
+      "adminOnly": false
+    },
+    {
+      "key": "polarityPassword",
+      "name": "Polarity Password",
+      "description": "The password for the given Polarity username",
+      "default": "",
+      "type": "password",
+      "userCanEdit": true,
+      "adminOnly": false
+    }
+  ]
+}
